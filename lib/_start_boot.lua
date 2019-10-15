@@ -3,12 +3,8 @@
 
 print("\n--- Started healthy ---\n")
 
-function heartBeat()
-  f= "flash_led_x_times.lua" if file.exists(f) then dofile(f) end
-  flashLedXTimes(4)
-end
-
-heartBeat ()
+f= "flash_led_x_times.lua" if file.exists(f) then dofile(f) end
+flashLedXTimes(3)
 
 ------- DON'T EDIT ABOVE THIS LINE --------
 ---------- EDIT BELOW THIS LINE -----------
