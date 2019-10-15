@@ -18,6 +18,5 @@ end
 gpio.trig(mSwitch, "both", quickLaunch)
 
 tmr.alarm(initAlarm, 8000,  tmr.ALARM_SINGLE, function()
-    print("\nStart boot\n")
     f= "_start_boot.lua" if file.exists(f) then dofile(f) end
 end)

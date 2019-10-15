@@ -1,6 +1,6 @@
 -- Blink LED x times with a ratio on/off
 
-function flashLedXTimes()
+function flashLedXTimes(xTimes)
   
   mLed = 0            -- LED NodeMCU
   mTimeLedOn = 50     -- in ms
@@ -28,8 +28,7 @@ function flashLedXTimes()
       end
   end
   
--- xTimes = 2
--- blinkLed ()
+  blinkLed ()
 
 end
 
