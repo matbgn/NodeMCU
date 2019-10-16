@@ -26,5 +26,5 @@ local function telnet_listener(socket)
   print("Welcome to NodeMCU terminal")
 end
 
-print("Telnet server started...\nUsage: telnet -rN ip\n")
+print("--- Telnet server started ---\n")
 net.createServer(net.TCP, 180):listen(port or 23, telnet_listener)

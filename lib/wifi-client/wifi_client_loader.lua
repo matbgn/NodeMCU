@@ -5,3 +5,4 @@ f= "wifi_cli_conn_conf.lua" if file.exists(f) then dofile(f) end
 f= "wifi_cli_conn_start.lua" if file.exists(f) then dofile(f) end
 f= "wifi_cli_conn_get_ip.lua" if file.exists(f) then dofile(f) end
 wifiCliConnectionGetIp(true, CREDENTIALS_DISPLAY_WIFI_PWD_ON_CONNECTION)
+wifiCliConnectionGetIp = nil
