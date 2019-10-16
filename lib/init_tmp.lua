@@ -11,12 +11,12 @@ local initAlarm = tmr.create()
 
 function quickLaunch()
     gpio.trig(mSwitch, "none")
-    tmr.unregister(initAlarm)
+    initAlarm:unregister()
     f= "_start_boot.lua"   if file.exists(f) then dofile(f) end
 end
 
 gpio.trig(mSwitch, "both", quickLaunch)
 
-tmr.alarm(initAlarm, 8000,  tmr.ALARM_SINGLE, function()
+initAlarm:alarm(8000, tmr.ALARM_SINGLE, function()
     f= "_start_boot.lua" if file.exists(f) then dofile(f) end
 end)
