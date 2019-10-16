@@ -9,10 +9,12 @@ added external editor with syntax highlighting and further improves it.
 Dirk van den Brink, Jr. added minor tweaks Jan. 2019
 --]]
 
+local mPort = 88
+
 local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Cloud Editor
   local AceEnabled = aceEnabled == nil and true or aceEnabled
   srv = net.createServer(net.TCP)
-  srv:listen(80, function(conn)
+  srv:listen(mPort, function(conn)
  
    local rnrn = 0
    local Status = 0
@@ -152,6 +154,10 @@ local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Clo
          end)
  
          return
+
+     elseif vars == "rename" then
+         file.rename(url:match("(.+)\/"), url:match("\/(.+)"))
+         url = ""
  
      elseif vars == "compile" then
          collectgarbage()
@@ -173,14 +179,14 @@ local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Clo
      sen = nil
      if url == "" then
          local l = file.list();
-         message[#message + 1] = "<table border=1 cellpadding=3><tr><th>Name</th><th>Size</th><th>Edit</th><th>Compile</th><th>Delete</th><th>Run</th></tr>\n"
+         message[#message + 1] = "<table border=1 cellpadding=3><tr><th>Name</th><th>Size</th><th>Edit</th><th>Rename</th><th>Compile</th><th>Delete</th><th>Run</th></tr>\n"
          for k,v in pairs(l) do
              local line = "<tr><td><a href='" ..k.. "'>" ..k.. "</a></td><td>" ..v.. "</td><td>"
              local editable = k:sub(-4, -1) == ".lua" or k:sub(-4, -1) == ".css" or k:sub(-5, -1) == ".html" or k:sub(-5, -1) == ".json" or k:sub(-4, -1) == ".txt" or k:sub(-4, -1) == ".csv"
              if editable then
                  line = line .. "<a href='" ..k.. "?edit'>edit</a>"
              end
-             line = line .. "</td><td>"
+             line = line .. "</td><td><a href='#' onclick='v=prompt(\"Type the new filename\");if (v!=null) { this.href=\"/"..k.."/\"+v+\"?rename\"; return true;} else return false;'>rename</a></td><td>"
              if k:sub(-4, -1) == ".lua" then
                  line = line .. "<a href='" ..k.. "?compile'>compile</a>"
              end
@@ -231,13 +237,13 @@ local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Clo
  end
  
  if wifi.sta.status() == wifi.STA_GOTIP then
-     print("http://"..wifi.sta.getip().."/")
+     print("http://"..wifi.sta.getip()..":"..mPort.."/")
      editor()
  else
      print("WiFi connecting...")
      wifi.eventmon.register(wifi.eventmon.STA_GOT_IP, function()
          wifi.eventmon.unregister(wifi.eventmon.STA_GOT_IP)
-         print("NodeMCU Web IDE running at http://"..wifi.sta.getip().."/")
+         print("NodeMCU Web IDE running at http://"..wifi.sta.getip()..":"..mPort.."/")
          editor()
      end)
  end
