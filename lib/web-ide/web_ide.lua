@@ -7,6 +7,8 @@ at https://github.com/joysfera/nodemcu-web-ide under the GPL license.
 Then updated it for new async socket send(), fixed, cleaned up,
 added external editor with syntax highlighting and further improves it.
 Dirk van den Brink, Jr. added minor tweaks Jan. 2019
+
+Matthieu Borgognon added rename functionallity Oct. 2019
 --]]
 
 local mPort = 88
