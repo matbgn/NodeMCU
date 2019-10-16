@@ -191,7 +191,7 @@ local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Clo
              message[#message + 1] = line
          end
          remaining, used, total=file.fsinfo()
-         message[#message + 1] = "</table>Total: "..total.." Bytes | Used: "..used.." Bytes | Remaining: "..remaining.." Bytes <br><br><a href='#' onclick='v=prompt(\"Filename\");if (v!=null) { this.href=\"/\"+v+\"?edit\"; return true;} else return false;'>[New File]</a>&nbsp;"
+         message[#message + 1] = "</table><br>Total: "..total.." Bytes <br> Used: "..used.." Bytes <br> Remaining: "..remaining.." Bytes <br><br><a href='#' onclick='v=prompt(\"Filename\");if (v!=null) { this.href=\"/\"+v+\"?edit\"; return true;} else return false;'>[New File]</a>&nbsp;"
          remaining, used, total=nil
        message[#message + 1] = "<a href='#' onclick='var x=new XMLHttpRequest();x.open(\"GET\",\"/?restart\");x.send();setTimeout(function(){location.href=\"/\"},5000);this.innerText=\"[Please wait...]\";return false'>[Restart]</a>"
      end

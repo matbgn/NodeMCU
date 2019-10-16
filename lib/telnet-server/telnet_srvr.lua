@@ -23,7 +23,7 @@ local function telnet_listener(socket)
   socket:on("receive",       receiveLine)
   socket:on("disconnection", disconnect)
   node.output(queueLine, 0)
-  print(("Welcome to NodeMCU world (%d mem free, %s)"):format(node.heap(), wifi.sta.getip()))
+  print("Welcome to NodeMCU terminal")
 end
 
 print("Telnet server started...\nUsage: telnet -rN ip\n")
