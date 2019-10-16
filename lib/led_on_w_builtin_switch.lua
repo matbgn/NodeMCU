@@ -1,7 +1,7 @@
 -- Turn ON LED when button pressed
 
-mLed = 0         -- LED NodeMCU 
-mSwitch = 3      -- switch NodeMCU
+local mLed = 0         -- LED NodeMCU Pin
+local mSwitch = 3      -- switch NodeMCU Pin
 
 gpio.mode(mSwitch, gpio.INT, gpio.PULLUP)
 

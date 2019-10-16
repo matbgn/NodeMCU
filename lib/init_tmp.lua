@@ -5,9 +5,9 @@
 
 print("\n--- Init NodeMCU ---\n")
 
-mSwitch = 3     -- switch NodeMCU
+local mSwitch = 3     -- switch NodeMCU
 gpio.mode(mSwitch, gpio.INT, gpio.PULLUP)
-initAlarm = tmr.create()
+local initAlarm = tmr.create()
 
 function quickLaunch()
     gpio.trig(mSwitch, "none")
