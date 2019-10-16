@@ -14,4 +14,5 @@ f= "_credentials.lua" if file.exists(f) then dofile(f) end
 f= "led_on_w_builtin_switch.lua" if file.exists(f) then dofile(f) end
 
 f= "wifi_client_loader.lua" if file.exists(f) then dofile(f) end
-f= "telnet_srvr.lua" if file.exists(f) then dofile(f) end
+-- f= "telnet_srvr.lua" if file.exists(f) then dofile(f) end
+f= "web_ide.lua" if file.exists(f) then dofile(f) end
