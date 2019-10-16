@@ -8,7 +8,6 @@ function wifiCliConnectionGetIp(mDisplayWifiInfos, mDisplayPassword)
       if wifi.sta.getip() == nil then
         print("Connecting to Wifi...")
       else
-        print("[DEBUG]: Enter in infos")
         tmr.stop(mWifiTimer)
         if mDisplayWifiInfos then
           f= "wifi_cli_conn_infos.lua" if file.exists(f) then dofile(f) end
