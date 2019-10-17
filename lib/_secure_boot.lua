@@ -29,13 +29,27 @@ t:alarm(500, tmr.ALARM_AUTO, function()
     t=nil
     collectgarbage()
     print("\n--- Debug tools started healthy ---")
-    print("\n--- 30 sec before standard boot ---")
-    print("-- [LOG] RAM left - At standard boot:"..node.heap().."\n")
+    print("--- 30 sec or push the btn for final boot ---")
 
+    local mSwitch = 3     -- switch NodeMCU
+    gpio.mode(mSwitch, gpio.INT, gpio.PULLUP)
     local initStdBootTimer = tmr.create()
-    initStdBootTimer:alarm(30*1000, tmr.ALARM_SINGLE, function()
-      print("\n--- Standard boot started healthy ---")
+
+    local function bootStdModeFaster()
+      gpio.trig(mSwitch, "none")
+      initStdBootTimer:unregister()
       mSwitch = nil
+      print("\n--- Standard boot started healthy ---")
+      print("-- [LOG] RAM left - At standard boot:"..node.heap().."\n")
+      f= "_std_boot.lua" if file.exists(f) then dofile(f) end
+    end
+    
+    gpio.trig(mSwitch, "both", bootStdModeFaster)
+
+    initStdBootTimer:alarm(30*1000, tmr.ALARM_SINGLE, function()
+      mSwitch = nil
+      print("\n--- Standard boot started healthy ---")
+      print("-- [LOG] RAM left - At standard boot:"..node.heap().."\n")
       f= "_std_boot.lua" if file.exists(f) then dofile(f) end
     end)
   end
