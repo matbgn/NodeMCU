@@ -53,8 +53,17 @@
     </style>
 </head>
 <body>
-    <h1>Yeahh !!</h1>
-    <p>Hello world !!</p>
+    <h1> Hello world!</h1>
+    <p>
+        <% 
+            mPrintOut("Connected on: " ..wifi.sta.getconfig(true).ssid)
+        %>
+    </p>
+    <p>
+        <%
+            mPrintOut("With IP adress: " ..wifi.sta.getip())
+        %>
+    </p>
 </body>
 </html>
 <!-- IE needs 512+ bytes: http://blogs.msdn.com/b/ieinternals/archive/2010/08/19/http-error-pages-in-internet-explorer.aspx -->
