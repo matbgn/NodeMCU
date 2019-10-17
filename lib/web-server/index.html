@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Success</title>
+    <title>
+        <%
+            mPrintOut(wifi.sta.gethostname())
+        %>
+    </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 
@@ -53,7 +57,11 @@
     </style>
 </head>
 <body>
-    <h1> Hello world!</h1>
+    <h1>
+        <% 
+            mPrintOut("Hello world, my name is: " ..wifi.sta.gethostname())
+        %>
+    </h1>
     <p>
         <% 
             mPrintOut("Connected on: " ..wifi.sta.getconfig(true).ssid)
