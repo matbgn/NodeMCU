@@ -70,6 +70,10 @@ srv:listen(mPort, function(conn)
             print("method: ", method)   print("path: ", path)   print("vars: ", vars)
             _GET = {}
             if (vars ~= nil) then
+                if vars == "restart" then
+                    node.restart()
+                    return
+                end
                 for k, v in string.gmatch(vars, "(%w+)=(%w+)&*") do
                     _GET[k] = v
                     print(k..": "..v)

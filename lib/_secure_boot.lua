@@ -25,6 +25,7 @@ end)
 local t = tmr.create()
 t:alarm(500, tmr.ALARM_AUTO, function()
   if srv then
+    f= "heartbeat.lua" if file.exists(f) then dofile(f) end
     t:unregister()
     t=nil
     collectgarbage()
