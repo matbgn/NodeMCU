@@ -10,8 +10,8 @@ f= "_credentials.lua" if file.exists(f) then dofile(f) end
 f= "wifi_client_loader.lua" if file.exists(f) then dofile(f) end
 
 local mTelnetConn = true
-f= "telnet_active.txt"
-if (file.exists(f) and file.getcontents('telnet_active.txt') == "true") then mTelnetConn = true else mTelnetConn = false end
+f= "is_telnet_active.txt"
+if (file.exists(f) and file.getcontents('is_telnet_active.txt') == "true") then mTelnetConn = true else mTelnetConn = false end
 local t = tmr.create()
 t:alarm(500, tmr.ALARM_AUTO, function()
   if (wifi.sta.status() == wifi.STA_GOTIP) then
@@ -40,8 +40,6 @@ t:alarm(500, tmr.ALARM_AUTO, function()
       gpio.trig(mSwitch, "none")
       initStdBootTimer:unregister()
       mSwitch = nil
-      print("\n--- Standard boot started healthy ---")
-      print("-- [LOG] RAM left - At standard boot:"..node.heap().."\n")
       f= "_std_boot.lua" if file.exists(f) then dofile(f) end
     end
     
@@ -49,8 +47,6 @@ t:alarm(500, tmr.ALARM_AUTO, function()
 
     initStdBootTimer:alarm(30*1000, tmr.ALARM_SINGLE, function()
       mSwitch = nil
-      print("\n--- Standard boot started healthy ---")
-      print("-- [LOG] RAM left - At standard boot:"..node.heap().."\n")
       f= "_std_boot.lua" if file.exists(f) then dofile(f) end
     end)
   end

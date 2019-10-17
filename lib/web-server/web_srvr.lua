@@ -5,6 +5,14 @@
 -- Interface with the HTML pages -> KEEP THIS LINES AS LONG AS YOU USE IT IN .html
 mGlblTmp = nil
 
+sntp.sync(nil, function(sec, usec, server, info)
+    mServerUpTime = (require "mtime").timeStamp()
+  end,
+  function()
+   print('Time synchronization failed!')
+  end
+)
+
 function mPrintOut(mString)
     glblClient:send(mString)    -- Print on open port as Global variable
 end

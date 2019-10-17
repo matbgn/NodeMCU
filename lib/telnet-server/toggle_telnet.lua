@@ -1,4 +1,4 @@
--- Toggle state of file telnet_active.txt
+-- Toggle state of file is_telnet_active.txt
 
-if file.getcontents('telnet_active.txt') == "true" then file.putcontents('telnet_active.txt', "false") else file.putcontents('telnet_active.txt', "true") end
-print("Telnet server activated: " ..file.getcontents('telnet_active.txt').. "\n")
+if file.getcontents('is_telnet_active.txt') == "true" then file.putcontents('is_telnet_active.txt', "false") else file.putcontents('is_telnet_active.txt', "true") end
+print("Telnet server activated: " ..file.getcontents('is_telnet_active.txt').. "\n")
