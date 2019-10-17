@@ -1,16 +1,3 @@
---[[
-XChip's NodeMCU IDE
-Original Source: http://www.esp8266.com/viewtopic.php?f=19&t=1549
-
-Petr Stehlik found the source in October 2016 and gave it a new home
-at https://github.com/joysfera/nodemcu-web-ide under the GPL license.
-Then updated it for new async socket send(), fixed, cleaned up,
-added external editor with syntax highlighting and further improves it.
-Dirk van den Brink, Jr. added minor tweaks Jan. 2019
-
-Matthieu Borgognon added rename functionallity Oct. 2019
---]]
-
 local mPort = 88
 
 local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Cloud Editor
@@ -29,17 +16,14 @@ local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Clo
      
      if Status == 0 then
          _, _, method, url, vars = string.find(payload, "([A-Z]+) /([^?]*)%??(.*) HTTP")
-         -- print("Method, URL, vars: ", method, url, vars)
      end
      
      if method == "POST" then
      
          if Status == 0 then
-             -- print("status", Status)
              _, _, DataToGet, payload = string.find(payload, "Content%-Length: (%d+)(.+)")
              if DataToGet then
                  DataToGet = tonumber(DataToGet)
-                 -- print("DataToGet = "..DataToGet)
                  rnrn = 1
                  Status = 1                
              else
@@ -47,9 +31,7 @@ local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Clo
              end
          end
          
-         -- find /r/n/r/n
          if Status == 1 then
-             -- print("status", Status)
              local payloadlen = string.len(payload)
              local mark = "\r\n\r\n"
              local i
@@ -73,10 +55,8 @@ local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Clo
          end       
      
          if Status == 2 then
-             -- print("status", Status)
              if payload then
                  DataToGet = DataToGet - string.len(payload)
-                 --print("DataToGet:", DataToGet, "payload len:", string.len(payload))
                  file.open(url, "a+")
                  file.write(payload)            
                  file.close() 
@@ -98,7 +78,6 @@ local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Clo
      DataToGet = -1
      
      if url == "favicon.ico" then
-         -- print("favicon.ico handler sends 404")
          sck:send("HTTP/1.1 404 file not found\r\nServer: NodeMCU IDE\r\nContent-Type: text/html\r\n\r\n<html><head><title>404 - File Not Found</title></head><body>Ya done goofed.</body></html>")
          return
      end    
@@ -236,16 +215,16 @@ local function editor(aceEnabled) -- feel free to disable the shiny Ajax.org Clo
      sck = nil
    end)
   end)
- end
+end
  
- if wifi.sta.status() == wifi.STA_GOTIP then
-     print("http://"..wifi.sta.getip()..":"..mPort.."/")
-     editor()
- else
-     print("WiFi connecting...")
-     wifi.eventmon.register(wifi.eventmon.STA_GOT_IP, function()
-         wifi.eventmon.unregister(wifi.eventmon.STA_GOT_IP)
-         print("NodeMCU Web IDE running at http://"..wifi.sta.getip()..":"..mPort.."/")
-         editor()
-     end)
- end
+local t = tmr.create()
+t:alarm(500, tmr.ALARM_AUTO, function()
+    if (wifi.sta.status() == wifi.STA_GOTIP) then
+        t:unregister()
+        t=nil
+        print("\n--- Web server started ---")
+        print("NodeMCU Web IDE running at http://"..wifi.sta.getip()..":"..mPort.."/")
+        editor()
+
+    end
+end)

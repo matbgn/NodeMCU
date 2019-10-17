@@ -14,8 +14,10 @@ function flashIOIndexLedXTimes(ledIOIndex, xTimes)
   
   function blinkLed()
       if mIterator >= xTimes then
---        print(mIterator)
-          mIterator = 0
+        mTimerFlashLed:unregister()
+        mIterator = nil
+        mTimeLedOn = nil
+        mTimeLedOff = nil
       else 
           if gpio.read(ledIOIndex) == gpio.HIGH then
               gpio.write(ledIOIndex, gpio.LOW)

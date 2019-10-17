@@ -7,16 +7,17 @@ print("\n--- Init NodeMCU ---\n")
 
 local mSwitch = 3     -- switch NodeMCU
 gpio.mode(mSwitch, gpio.INT, gpio.PULLUP)
-local initAlarm = tmr.create()
+local initSecureTimer = tmr.create()
 
-function quickLaunch()
+local function quickLaunch()
     gpio.trig(mSwitch, "none")
-    initAlarm:unregister()
-    f= "_first_boot.lua"   if file.exists(f) then dofile(f) end
+    initSecureTimer:unregister()
+    mSwitch = nil
+    f= "_secure_boot.lua" if file.exists(f) then dofile(f) end
 end
 
 gpio.trig(mSwitch, "both", quickLaunch)
 
-initAlarm:alarm(8000, tmr.ALARM_SINGLE, function()
-    f= "_first_boot.lua" if file.exists(f) then dofile(f) end
+initSecureTimer:alarm(5000, tmr.ALARM_SINGLE, function()
+    f= "_secure_boot.lua" if file.exists(f) then dofile(f) end
 end)

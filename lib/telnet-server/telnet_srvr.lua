@@ -18,13 +18,25 @@ local function telnet_listener(socket)
     socket:on("receive", nil)
     socket:on("sent", nil)
     node.output(nil)
+    package.loaded.telnet = nil
+    collectgarbage()
   end
 
   socket:on("receive",       receiveLine)
   socket:on("disconnection", disconnect)
   node.output(queueLine, 0)
-  print("Welcome to NodeMCU terminal")
+  print("Welcome to NodeMCU terminal \n")
 end
 
-print("--- Telnet server started ---\n")
-net.createServer(net.TCP, 180):listen(port or 23, telnet_listener)
+local t = tmr.create()
+t:alarm(500, tmr.ALARM_AUTO, function()
+  if (wifi.sta.status() == wifi.STA_GOTIP) then
+    t:unregister()
+    t=nil
+    print("\n--- Telnet server started ---")
+    srv = net.createServer(net.TCP, 180)
+    srv:listen(port or 23, telnet_listener)
+  else
+    uwrite(0,".")
+  end
+end)

@@ -1,9 +1,8 @@
 -- Print infos about actual connected Wifi
 
-function wifiCliConnectionInfos(mDisplayPassword)
+local function wifiCliConnectionInfos(mDisplayPassword)
   
-  local mWifiMode=wifi.getmode()
-
+  local mWifiMode = wifi.getmode()
 
   if mWifiMode == wifi.NULLMODE then
       print("--- WIFI OFF ---")
@@ -11,11 +10,10 @@ function wifiCliConnectionInfos(mDisplayPassword)
   elseif mWifiMode == wifi.STATION then
       print("--- WIFI mode CLI ---")
       print("Connected IP:\n",wifi.sta.getip())
-      local sta_config=wifi.sta.getconfig(true)
       print("Current client config:")
-      print("\tssid:", sta_config.ssid)
+      print("\tssid:", wifi.sta.getconfig(true).ssid)
       if mDisplayPassword then
-        print("\tpassword:", sta_config.pwd)
+        print("\tpassword:", wifi.sta.getconfig(true).pwd)
       end
       print("\tbssid:", sta_config.bssid)
 
@@ -28,15 +26,20 @@ function wifiCliConnectionInfos(mDisplayPassword)
   elseif mWifiMode == wifi.STATIONAP then
       print("--- WIFI mode CLI + AP ---")
       print("Connected IP:\n",wifi.sta.getip())
-      local sta_config=wifi.sta.getconfig(true)
       print("Current client config:")
-      print("\tssid:", sta_config.ssid)
+      print("\tssid:", wifi.sta.getconfig(true).ssid)
       if mDisplayPassword then
-        print("\tpassword:", sta_config.pwd)
+        print("\tpassword:", wifi.sta.getconfig(true).pwd)
       end
-      print("\tbssid:", sta_config.bssid)
+      print("\tbssid:", wifi.sta.getconfig(true).bssid)
       print("AP MAC: ", wifi.ap.getmac())
       print("AP IP: ", wifi.ap.getip())
   end
+
+  mWifiMode = nil
   
 end
+
+wifiCliConnectionInfos(ENV_DISPLAY_WIFI_PWD)
+wifiCliConnectionInfos = nil
+collectgarbage()
